@@ -1,0 +1,10 @@
+#
+# Create the Etourtravelb2b Product Catalog
+#
+# ENGLISH LOCALIZATION
+#
+$lang=en
+$productCatalog=etourtravelb2bProductCatalog
+ 
+UPDATE Catalog;id[unique=true];name[lang=$lang]
+;$productCatalog;"etourtravelb2b Product Catalog"

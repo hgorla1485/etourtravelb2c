@@ -1,0 +1,54 @@
+# ImpEx for Promotions
+
+# Macros / Replacement Parameter definitions
+$productCatalog=etourtravelb2bProductCatalog
+$defaultPromoGrp=etourtravelb2bPromoGrp
+$regulargroup=regulargroup
+
+$favCustomers=favoriteCustomers
+$bigSpenders=bigSpenders
+$catalogVersion=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$productCatalog]),CatalogVersion.version[default=Online])[default=$productCatalog:Online]
+
+INSERT PromotionPriceRow;&tresholdId;Currency(isocode);price
+;1;GBP;150
+;2;USD;200
+;3;JPY;15000
+
+INSERT PromotionPriceRow;&priceId;Currency(isocode);price
+;7;GBP;15
+;8;USD;20
+;9;JPY;1500
+
+#INSERT_UPDATE OrderThresholdDiscountPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true,unique=true];code[unique=true];title;description;messageFired[lang=en];messageFired[lang=de];messageFired[lang=ja];messageFired[lang=zh];priority;thresholdTotals(&tresholdId);discountPrices(&priceId)
+
+INSERT_UPDATE PromotionUserRestriction;positive;promotion(code)[unique=true];users(uid)
+
+INSERT PromotionPriceRow;&tresholdId;Currency(isocode);price
+
+INSERT_UPDATE OrderThresholdDiscountPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true,unique=true];code[unique=true];title;description;messageFired[lang=en];messageFired[lang=de];messageFired[lang=ja];messageFired[lang=zh];priority;thresholdTotals(&tresholdId);discountPrices(&priceId)
+;;;OrderThreshold15Discount;You saved bunch of bucks for spending quite much;You saved bunch of bucks for spending quite much;You saved {3} for spending over {1};Sie haben {3} gespart, weil Sie mehr als {1} ausgegeben haben;{1} 以上の購入で {3} の節約;您的一份订单超过 {1}，节省了 {3}。;500;1,2,3;7,8,9
+
+
+INSERT_UPDATE ProductPercentageDiscountPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true][unique=true];code[unique=true];title;description;percentageDiscount;priority;products(code,$catalogVersion)
+;;;20DiscountDomesticAgraPremiumPackage;20% discount on DomesticAgra Premium Package;20% discount on DomesticAgra Premium Package;20;500;0003
+
+INSERT_UPDATE ProductQuantityThresholdFreeGiftPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true][unique=true];code[unique=true];priority;products(code,$catalogVersion);giftProduct(code,$catalogVersion);messageCouldHaveFired                           ;messageFired     ;qualifyingCount
+														;                                                    ;                                  ;GetFree          ;1000    ;     0016                  ;      0014   ;Book 3 Malaysia premium package you will get 1  Malaysia Standard Package free; you got free gift;3
+
+
+
+
+
+INSERT PromotionPriceRow;&priceId;Currency(isocode);price
+
+INSERT_UPDATE AcceleratorProductMultiBuyPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true][unique=true];code[unique=true];title;description;priority;categories(code,$catalogVersion);qualifyingCount;bundlePrices(&priceId)
+
+INSERT_UPDATE AcceleratorProductBOGOFPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true][unique=true];code[unique=true];title;description;priority;categories(code,$catalogVersion);qualifyingCount;freeCount
+
+INSERT PromotionPriceRow;&priceId;Currency(isocode);price
+
+INSERT_UPDATE ProductPerfectPartnerPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true][unique=true];code[unique=true];title;description;priority;products(code,$catalogVersion);partnerProducts(code,$catalogVersion);partnerPrices(&priceId)
+
+INSERT PromotionPriceRow;&priceId;Currency(isocode);price
+
+INSERT_UPDATE ProductBundlePromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true,unique=true];code[unique=true];title;description;priority;products(code,$catalogVersion);bundlePrices(&priceId)
